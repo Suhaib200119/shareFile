@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UploadFileRequset;
+use App\Http\Requests\DownloadFileRequset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
-class UploadController extends Controller
+class DownloadController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,24 +22,23 @@ class UploadController extends Controller
      */
     public function create()
     {
-    return view("uploadFileScreen");
+        return view("downloadFileScreen");
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UploadFileRequset $request)
+    public function store(DownloadFileRequset $request)
     {
-     $validation=$request->validated();
-     if($request->hasFile("userFile")){
-        $file=$request->file("userFile");
-        $path = $file->store("/files","uploads");
-        $link = asset('uploads/' . $path);
-        Session::flash("data", $link);
-     }else{
-        Session::flash("data","no files!");
-     }
-     return redirect()->route("uploadFile.create");
+        $linkFile=$request->post("linkFile");
+        if(filter_var($linkFile,FILTER_VALIDATE_URL)){
+            $Filename = basename($linkFile);
+            return response()->download($linkFile,$Filename);
+        }else{
+            Session::flash("message","Invalid Link!");
+        }
+        return redirect()->route("DownloadFile.create");
+        
     }
 
     /**
