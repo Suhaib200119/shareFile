@@ -12,18 +12,18 @@
   </head>
   <body>
     <div class="position-absolute top-50 start-50 translate-middle">
-        @if (session()->has("message"))
+        @if (session()->has("danger"))
             <div class="alert alert-danger">
-                {{session("message")}}
+              {{session("danger")}}
             </div>
         @endif
-    <h2 class="text-success">Download File By Link</h2>
+    <h2 class="text-success">Download File By File Name</h2>
         <form action="{{route("DownloadFile.store")}}" method="post" >
             @csrf
             <div class="mb-3">
-                <label for="linkFileId" class="form-label">Put File Link</label>
-                <input class="form-control" type="link" id="linkFileId" name="linkFile">
-                @error("linkFile")
+                <label for="fileNameId" class="form-label">Put File File Name</label>
+                <input class="form-control" type="text" id="fileNameId" name="fileName">
+                @error("fileName")
                     <p class="text-danger">{{$message}}</p>
                 @enderror
               </div>

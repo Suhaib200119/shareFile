@@ -22,15 +22,15 @@ class DownloadFileRequset extends FormRequest
     public function rules(): array
     {
         return [
-            "linkFile"=>"string|required"
+            "fileName"=>"string|required"
         ];
     }
 
     public function messages(): array
     {
         return [
-            "linkFile.string"=>"The Link File Must be String",
-            "linkFile.required"=>"The Link File Is Required"
+            "fileName.string"=>"The Link File Must be String",
+            "fileName.required"=>"The Link File Is Required"
         ];
     }
 }

@@ -23,10 +23,10 @@
     @endif
     @if (session()->has("data"))
         <div class="alert alert-success">
-            {{session("data")}}
+        {{session("data")}}
         </div>
     @endif
-<h2 class="text-success">Share your files by link</h2>
+<h2 class="text-success">Share your files by name</h2>
     <form action="{{route("uploadFile.store")}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">

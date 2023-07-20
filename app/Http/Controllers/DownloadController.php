@@ -30,15 +30,14 @@ class DownloadController extends Controller
      */
     public function store(DownloadFileRequset $request)
     {
-        $linkFile=$request->post("linkFile");
-        if(filter_var($linkFile,FILTER_VALIDATE_URL)){
-            $Filename = basename($linkFile);
-            return response()->download($linkFile,$Filename);
+        $validation=$request->validated();
+        $fileName=$request->post("fileName");
+        if(Storage::disk("uploads")->exists("files/".$fileName)){
+           return response()->download("storage/uploads/files/".$fileName);
         }else{
-            Session::flash("message","Invalid Link!");
+            Session::flash("danger","The file does not exist");
         }
         return redirect()->route("DownloadFile.create");
-        
     }
 
     /**
