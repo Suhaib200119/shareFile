@@ -32,8 +32,8 @@ class DownloadController extends Controller
     {
         $validation=$request->validated();
         $fileName=$request->post("fileName");
-        if(Storage::disk("uploads")->exists("files/".$fileName)){
-           return response()->download("storage/uploads/files/".$fileName);
+        if(Storage::disk("public")->exists("files/".$fileName)){
+           return response()->download("storage/files/".$fileName);
         }else{
             Session::flash("danger","The file does not exist");
         }

@@ -32,7 +32,7 @@ class UploadController extends Controller
      $validation=$request->validated();
      if($request->hasFile("userFile")){
         $file=$request->file("userFile");
-        $path = explode("/",$file->store("/files","uploads"));
+        $path = explode("/",$file->store("/files","public"));
         Session::flash("data", $path[1]);
      }else{
         Session::flash("data","no files!");
