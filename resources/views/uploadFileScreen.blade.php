@@ -21,12 +21,16 @@
             </ul>
         </div>
     @endif
-    @if (session()->has("data"))
+    @if (session()->has("success"))
         <div class="alert alert-success">
-        {{session("data")}}
+        {{session("success")}}
         </div>
+     @elseif (Session()->has("danger")) 
+     <div class="alert alert-danger">
+        {{session("danger")}}
+        </div>  
     @endif
-<h2 class="text-success">Share your files by name</h2>
+<h2 class="text-success">Share your files by url</h2>
     <form action="{{route("uploadFile.store")}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">

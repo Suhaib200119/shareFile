@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UploadFileRequset;
-use Illuminate\Http\Request;
+use App\Models\File;
+use App\Models\UserImage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class UploadController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+    public function index(){
+        $images=File::all();
+        return view("home-page")->with("images",$images);
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -24,51 +23,43 @@ class UploadController extends Controller
     return view("uploadFileScreen");
     }
 
+    public function show(String $id){
+        $data=File::findOrFail($id);
+        return response()->json(["data"=>$data]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(UploadFileRequset $request)
     {
      $validation=$request->validated();
-     if($request->hasFile("userFile")){
+    
         $file=$request->file("userFile");
-        $path = explode("/",$file->store("/files","public"));
-        Session::flash("data", $path[1]);
-     }else{
-        Session::flash("data","no files!");
-     }
-     return redirect()->route("uploadFile.create");
+        $fileName=$file->getClientOriginalName();
+        $pathFile=$file->storeAs("/files",$fileName,"public");
+
+        $baseName=basename($pathFile);
+        $url=URL::route("DownloadFile.show",[
+            "DownloadFile"=>$baseName,
+        ]);
+        
+        
+        $userImage=new File();
+        $userImage->imagePath=$pathFile;
+        $userImage->urlDownload=$url;
+        $userImage->user_id=Auth::id();
+        $isSaved=$userImage->save();
+        
+        if($isSaved){
+            Session::flash("success","File Saved");
+        }else{
+            Session::flash("danger","Some Error!");
+        }
+        return redirect()->route("uploadFile.index");
+
+
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    
 }
