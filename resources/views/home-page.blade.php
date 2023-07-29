@@ -15,7 +15,7 @@
                 .then(function(response){
                     const data = response.data["data"];
                     Swal.fire({
-                        title: data.imagePath,
+                        title: data.fileName,
                         text: data.urlDownload,
                         imageUrl: "storage/" + data.imagePath,
                         imageWidth: 400,
@@ -56,24 +56,19 @@
         <table class="table table-striped table-sm">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">imagePath</th>
-                    <th scope="col">urlImage</th>
-                    <th scope="col">craeted_at</th>
-                    <th scope="col"></th>
-
-
+                    <th scope="col">Image Name</th>
+                    <th scope="col">Url</th>
+                    <th scope="col">expiration</th>
+                    <th scope="col">operation</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($images as $image)
                     <tr>
-                        <td>{{ $image->id }}</td>
-                        <td>{{ $image->imagePath }}</td>
+                        <td>{{ $image->fileName }}</td>
                         <input id="myUrl" type="hidden" value="{{ $image->urlDownload }}">
                         <td>{{ $image->urlDownload }}</td>
-                        <td>{{ $image->created_at }}</td>
-
+                        <td>after <b>{{$image->linkHours}}</b> h</td>
                         <td>
                             <button
                                 style=" background-color: rgb(33, 72, 229);

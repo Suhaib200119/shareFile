@@ -41,6 +41,16 @@
             @enderror
           </div>
 
+          <div class="mb-3">
+            <label for="hour" class="form-label">The number of hours the link is valid
+            </label>
+            <select name="hours" class="form-select">
+              @for ($x = 1 ; $x<25 ; $x++)
+              <option value="{{$x}}">{{$x}}</option>
+              @endfor
+            </select>
+          </div>
+
           <button type="submit" class="btn btn-primary" style="width: 100%">Get Link</button>
     </form>
  </div>

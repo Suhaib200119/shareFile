@@ -40,7 +40,8 @@ class UploadController extends Controller
         $pathFile=$file->storeAs("/files",$fileName,"public");
 
         $baseName=basename($pathFile);
-        $url=URL::route("DownloadFile.show",[
+        $expiration = now()->addHour($request->post("hours"));
+        $url=URL::temporarySignedRoute("DownloadFile.show",$expiration,[
             "DownloadFile"=>$baseName,
         ]);
         
@@ -48,8 +49,11 @@ class UploadController extends Controller
         $userImage=new File();
         $userImage->imagePath=$pathFile;
         $userImage->urlDownload=$url;
+        $userImage->fileName= $baseName;
         $userImage->user_id=Auth::id();
+        $userImage->linkHours=$request->post("hours");
         $isSaved=$userImage->save();
+
         
         if($isSaved){
             Session::flash("success","File Saved");
