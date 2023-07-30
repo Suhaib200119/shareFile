@@ -17,7 +17,7 @@ class File extends Model
     public function setLinkHoursAttribute($value){
         $this->attributes["linkHours"]="after $value h";
     }
-
+ 
     protected static function boot(){
         parent::boot();
         static::observe(FileObserver::class);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UploadFileRequset;
 use App\Models\File;
 use App\Models\UserImage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
@@ -73,6 +74,22 @@ class UploadController extends Controller
 
        }
     
+    }
+
+    public function update($id){
+        $file=File::findOrFail($id);
+        $expiration = now()->addHour(24);
+        $url=URL::temporarySignedRoute("DownloadFile.show",$expiration,[
+            "DownloadFile"=>$file->fileName,
+        ]);
+        $file->urlDownload=$url;
+        $file->linkHours=24;
+       if($file->save()){
+        Session::flash("success","The download link has been extended by 24 hours");
+       }else{
+        Session::flash("danger","The download link extension failed");
+       }
+        return redirect()->route("uploadFile.index");
     }
 
     

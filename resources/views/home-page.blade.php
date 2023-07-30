@@ -41,16 +41,23 @@
                         <td style="width: ">{{ $image->urlDownload }}</td>
                         <td><b>{{ $image->linkHours }}</b></td>
                         <td style="text-align: center;padding-right: 0px;padding-left: 0px;width: 200px;">
-                            <button onclick="showDialog({{ $image->id }})" class="btn btn-primary">
+                            <button onclick="showDialog('{{ $image->id }}')" class="btn btn-primary">
                                 <i class="bi bi-eye" style="color: white"></i>
                             </button>
                             <button onclick="copyLink('{{ $image->urlDownload }}')" class="btn btn-success">
                                 <i class="bi bi-clipboard-check"></i>
                             </button>
                            
-                            <button onclick="deleteItem({{ $image->id }})" class="btn btn-danger">
+                            <button onclick="confirmDeleteItem('{{ $image->id }}')" class="btn btn-danger">
                                 <i class="bi bi-trash"></i>
                             </button>
+                            <form style="display: inline" action="{{route("uploadFile.update",$image->id)}}" method="post">
+                            @csrf
+                            @method("put")
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-arrows-angle-expand"></i>
+                            </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
@@ -70,7 +77,7 @@
         function copyLink(url) {
             navigator.clipboard.writeText(url);
         }
-        // Function to View Data In Dialog
+        // Function To View Data In Dialog
         function showDialog(id) {
             const route = `uploadFile/${id}`; // route format
             axios.get(route) //get requset
@@ -95,7 +102,23 @@
                     })
                 });
         }
-        // Function to delete Item
+        // Function To confirm Delete Item
+        function confirmDeleteItem(id){
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                 deleteItem(id);
+                }
+                });
+        }
+        // Function To Delete Item
         function deleteItem(id) {
             const route = `uploadFile/${id}`;// route format
             axios.delete(route)//get requset
@@ -116,6 +139,7 @@
 
 
         }
+
     </script>
 
 
