@@ -33,6 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/uploadFile', UploadController::class);
 });
-Route::resource('/DownloadFile', DownloadController::class);
+Route::middleware("signed")->resource('/DownloadFile', DownloadController::class);
 
 require __DIR__.'/auth.php';

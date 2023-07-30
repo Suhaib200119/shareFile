@@ -43,14 +43,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <meta name="theme-color" content="#7952b3">
-
     @yield("css")
-
-
 <body>
 
     <header class="navbar navbar-light sticky-top bg-light flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Share File</a>
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="">Welcome <b class="text-success">{{Auth::user()->name}}</b> in share file platform</a>
         <div class="navbar-nav">
             <div class="nav-item text-nowrap">
                 <form action="{{route("logout")}}" method="post">

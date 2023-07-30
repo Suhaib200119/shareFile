@@ -64,6 +64,16 @@ class UploadController extends Controller
 
 
     }
+   public function destroy(String $id){
+    $count=File::destroy($id);
+       if($count>0){
+        return response()->json(200);
+       }else{
+        return response()->json(400);
+
+       }
+    
+    }
 
     
 }
