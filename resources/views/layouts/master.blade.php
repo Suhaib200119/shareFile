@@ -90,6 +90,9 @@
         style="z-index: 2147483647; position: fixed; left: 0px; bottom: 10%; box-sizing: border-box; display: none;">
     </bubbles-pinned-extension-ppbfhhgcdehhbjigifndnfmcihegokbb>
     @yield("js")
+    <script>
+    
+    </script>
 </body>
 
 </html>

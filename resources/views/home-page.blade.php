@@ -31,6 +31,7 @@
                     <th scope="col">Image Name</th>
                     <th scope="col">Url</th>
                     <th scope="col">expiration</th>
+                    <th scope="col">created at</th>
                     <th scope="col">operation</th>
                 </tr>
             </thead>
@@ -38,9 +39,14 @@
                 @foreach ($images as $image)
                     <tr id="{{$image->id}}" >
                         <td>{{ $image->fileName }}</td>
-                        <td style="width: ">{{ $image->urlDownload }}</td>
-                        <td><b>{{ $image->linkHours }}</b></td>
-                        <td style="text-align: center;padding-right: 0px;padding-left: 0px;width: 200px;">
+                        <td>{{ $image->urlDownload }}</td>
+                        <td>
+                            <b>{{ $image->linkHours }}</b>
+                        </td>
+                        <td style="width: 200px">
+                            {{ $image->created_at }}
+                        </td>
+                        <td style="text-align: center;padding-right: 0px;padding-left: 0px;width: 250px;">
                             <button onclick="showDialog('{{ $image->id }}')" class="btn btn-primary">
                                 <i class="bi bi-eye" style="color: white"></i>
                             </button>
@@ -71,8 +77,12 @@
 @section('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+  <script>
+      user_id={{Auth::id()}};
+  </script>
+    @vite(["resources/js/app.js"]);
     <script>
+    
         // Function To Copy Download Link
         function copyLink(url) {
             navigator.clipboard.writeText(url);
@@ -139,7 +149,7 @@
 
 
         }
-
+   
     </script>
 
 
